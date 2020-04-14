@@ -56,18 +56,9 @@ body {
     width: 100%;
     align-items: stretch;
 }
-/*
-#sidebar {
-    width: 250px;
-    min-height: 100vh;
-}
-
-#sidebar.active {
-    margin-left: -250px;
-}*/
 
 .app{
-  background-color: #237acc;
+  background-color: #f5f9ff;
 }
 
 .scroll-page{
@@ -190,6 +181,14 @@ body {
   background-color: #ffffff;
   z-index: 100;
 }
+
+#sidebar-toggler {
+    color: #000000;
+}
+/*
+#sidebar.active {
+    margin-left: -250px;
+}*/
 
 .dropdown-menu{
   border-radius: 0.5em;

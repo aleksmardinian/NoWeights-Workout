@@ -1,5 +1,6 @@
 :root {
   --gutter: 1em;
+  --nav-height: 45px;
 }
 
 html,
@@ -9,14 +10,16 @@ body {
 }
 
 nav{
-  height: 50px;
+  height: var(--nav-height);
   min-width: 300px;
 }
 
 body {
-  padding-top: 50px;
+  padding-top: var(--nav-height);
   height: 100%;
 }
+
+/*HOME PAGE*/
 
 .white{
   color: #ffffff;
@@ -29,7 +32,6 @@ body {
   min-height: 500px;
 }
 
-
 .cover-image{
   padding-top: 0.2em;
 }
@@ -38,12 +40,11 @@ body {
       padding: 0 0 0.2em 0;
 }
 
-@media (min-width: 750px) {
+@media (min-width: 768px) {
   .left-tile {
       padding: 0 0.2em 0 0;
   }
 }
-
 
 .display-3{
   margin-left: 0.5em;
@@ -51,18 +52,22 @@ body {
 
 
 
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
+
+
+
+
+
+
+
+
+
+/*CREATE PAGE*/
 
 .app{
   background-color: #f5f9ff;
 }
 
 .scroll-page{
-  margin-left: 250px;
   overflow-x: scroll;
 }
 
@@ -74,7 +79,7 @@ body {
   align-items: start;
   align-content: start;
   grid-auto-columns: 250px;
-  grid-auto-rows: calc(100vh - 50px);
+  grid-auto-rows: calc(100vh - var(--nav-height));
   grid-auto-flow: column;
   padding: 0 var(--gutter);
   float: left;
@@ -87,61 +92,105 @@ body {
   background-color: #dfe2e8;
   border: solid 1px grey;
   border-radius: 5px;
-  padding-bottom: calc(var(--gutter) - 4px);
 }
 
 .exercises{
-  position: fixed;
+  float: left;
   background-color: #525954;
+  color: #ffffff;
   padding: var(--gutter);
   width: 250px;
   margin: 0;
-  height: calc(100vh - 50px);
+  height: calc(100vh - var(--nav-height));
   border: 0;
   border-right: solid 1px grey;
   border-radius: 0px;
   z-index: 10;
+  transition: 0.5s;
+  white-space: nowrap;
 }
 
-.internal-border{
+.hide {
+  width: 0px;
+  padding: var(--gutter) 0px;
+  border: none;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.external-border{
   border: solid 1px white;
   padding: 0.25em;
-  margin-bottom: 16px;
   border-radius: 5px;
   height:auto;
 }
 
 .workout{
-  max-height: calc(100vh - 50px - 2 * var(--gutter));
+  max-height: calc(100vh - var(--nav-height) - 2 * var(--gutter));
 }
 
-.item li{
-  color: black;
+.item li, .new-exercise-input{
+  color: #000000;
   background-color: white;
   border-radius: 5px;
   margin-bottom: 6px;
-  padding: 4px 0;
-  padding-left: 4px;
+  padding: 4px 8px;
 }
 
+.new-exercise-input{
+  border: 1px solid #6c757d;
+  width: 100%;
+  margin: 0px;
+  background-color: rgba(255,255,255,1);
+  color: #6c757d;
+
+}
+
+.new-exercise-input:focus{
+  box-shadow: none;
+  border: 1px solid rgba(81, 203, 238, 1);
+  border-radius: 5px;
+  outline: none;
+}
+
+.new-exercise-input::placeholder{
+  color: #6c757d;
+}
 
 .item ul{
   margin: 0px;
 }
 
-.scroll-exercises{
+.exercises .scroll-exercises{
   overflow-y: scroll;
-  max-height: calc(100vh - 177px);
+  max-height: calc(100vh - 172px);
 }
 
-.scroll-workouts{
+.workout .scroll-exercises{
   overflow-y: scroll;
-  max-height: calc(100vh - 30px - 7 * var(--gutter));
+  max-height: calc(100vh - var(--nav-height) + 10px - 7 * var(--gutter));
  }
 
 .exercises h3{
   margin-top: 11px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*NAVBAR FORMATTING*/
 
@@ -157,38 +206,45 @@ body {
   border-bottom-right-radius: 10px;
 }
 
-.navbar-collapse.show{
+@media (max-width :767px){
+  .navbar-collapse.show {
   padding-bottom: 1em;
+  }
 }
 
 .navbar-brand img{
-  height: 40px;
+  height: calc( var(--nav-height) - 10px);
 }
 
 .theme-color{
   background-color: #000000 !important;
 }
 
-#navigationlink{
+.navigation-link, 
+#sidebar-toggler{
   padding-left: 1em;
   padding-right: 1em;
   color: #ffffff;
 }
 
-#navigationlink:hover{
+.navigation-link, 
+#sidebar-toggler{
+  display:block;
+  border-radius: 0.25em;
+  border: none;
+  padding: 0.25em 1em;
+  color: #ffffff;
+}
+
+.navigation-link:hover,
+#sidebar-toggler:hover{
+  text-decoration: none;
+  border: none;
   border-radius: 0.5em;
   color: #000000;
   background-color: #ffffff;
-  z-index: 100;
+  z-index: 10;
 }
-
-#sidebar-toggler {
-    color: #000000;
-}
-/*
-#sidebar.active {
-    margin-left: -250px;
-}*/
 
 .dropdown-menu{
   border-radius: 0.5em;
@@ -212,8 +268,9 @@ body {
   margin-left: -1em;
 }
 
-::placeholder{
+.form-control-sm::placeholder{
   color: #ffffff;
+  font-size: 1em;
 }
 
 .form-control-sm:focus{

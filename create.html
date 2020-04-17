@@ -13,19 +13,19 @@
 		<!-- HEADER -->
   		<header>
 			<nav class="navbar fixed-top navbar-expand-md navbar-dark theme-color">
-				<div class="container">
+				<div class="container-fluid">
 				  	<a class="navbar-brand" href="home.html"><img src="images/logo2.jpg"/></a>
-        			<a class="nav-link mr-auto" id="navigationlink" href="#">>Exercises</a>
+        			<a class="mr-auto" id="sidebar-toggler" href="#">Hide Exercises</a>
 				  	<button class="navbar-toggler custom" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				   		<span class="navbar-toggler-icon"></span>
 				  	</button>
 				  	<div class="collapse navbar-collapse theme-color" id="navbarSupportedContent">
 					    <ul class="navbar-nav ml-auto">
-					      <li class="nav-item active">
-					        <a class="nav-link" id="navigationlink" href="home.html">Home</a>
+					      <li class="nav-item">
+					        <a class="navigation-link" href="home.html">Home</a>
 					      </li>
-					      <li class="nav-item dropdown active">
-					        <a class="nav-link dropdown-toggle" href="#" id="navigationlink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					      <li class="nav-item dropdown">
+					        <a class="dropdown-toggle navigation-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					          Sport
 					        </a>
 					        <div class="dropdown-menu theme-color" aria-labelledby="sportDropdown">
@@ -39,10 +39,10 @@
 					        </div>
 					      </li>
 					      <li class="nav-item">
-					        <a class="nav-link active" id="navigationlink" href="create.html">Create</a>
+					        <a class="navigation-link" href="#">Create</a>
 					      </li>
 					      <li class="nav-item">
-					        <a class="nav-link active" id="navigationlink" href="about.html">About</a>
+					        <a class="navigation-link" href="#">About</a>
 					      </li>
 					    </ul>
 				    <form class="form-inline ml-4">
@@ -56,52 +56,26 @@
   		</header>
   		<!-- CONTENT -->
   		<div class="app">
-  			<div class="item exercises white">
+  			<div class="item exercises">
 				<h3>Exercises</h3>
-				<ul class="list-unstyled internal-border">
+				<ul class="external-border">
 					<h5>Select an exercise</h5>
 					<div class="scroll-exercises">
-						<ul class="list-unstyled">
-							<li>
-								Squats
-							</li>
-							<li>
-								Push-ups
-							</li>
-							<li>
-								Jumping squats
-							</li>
-							<li>
-								Jumping squats
-							</li>
-							<li>
-								Squats
-							</li>
-							<li>
-								Push-ups
-							</li>
-							<li>
-								Jumping squats
-							</li>
-							<li>
-								Squats
-							</li>
-							<li>
-								Push-ups
-							</li>
-							<li>
-								Jumping squats
-							</li>
-							<li>
-								Squats
-							</li>
-							<li>
-								Push-ups
-							</li>
-							<li>
-								Jumping Squats
-							</li>
+						<ul class="list-unstyled exercise-list">
+							<li>Jumping squats</li>
+							<li>Squats</li>
+							<li>Push-ups</li>
+							<li>Jumping squats</br>XXXXX</li>
+							<li>Squats</li>
+							<li>Push-ups</li>
+							<li>Jumping squats</li>
+							<li>Squats</li>
+							<li>Push-ups</li>
+							<li>Jumping Squats</li>
 						</ul>
+						<form class="new-exercise">
+							<input type="text" aria-label="New exercise" placeholder="New exercise" class="new-exercise-input">
+						</form>
 					</div>
 				</ul>
 			</div>
@@ -109,42 +83,28 @@
 	  			<div class="hs">
 					<div class="item workout">
 						<h4>Workout 1</h4>
-						<div class="scroll-workouts">
-							<ul class="list-unstyled">
-								<li>
-									Jumping squats
-								</li>
-								<li>
-									Squats
-								</li>
-								<li>
-									Push-ups
-								</li>
-								<li>
-									Jumping squats
-								</li>
-								<li>
-									Squats
-								</li>
-								<li>
-									Push-ups
-								</li>
-								<li>
-									Jumping squats
-								</li>
-								<li>
-									Squats
-								</li>
-								<li>
-									Push-ups
-								</li>
-								<li>
-									Jumping Squats
-								</li>
+						<div class="scroll-exercises">
+							<ul class="list-unstyled exercise-list">
+								<li>Jumping squats</li>
+								<li>Squats</li>
+								<li>Push-ups</li>
+								<li>Jumping squats</li>
+								<li>Squats</li>
+								<li>Push-ups</li>
+								<li>Jumping squats</li>
+								<li>Squats</li>
+								<li>Push-ups</li>
+								<li>Jumping Squats</li>
 							</ul>
+							<form class="new-exercise">
+									<input type="text" aria-label="New exercise" placeholder="New exercise" class="new-exercise-input">
+							</form>
 						</div>
 					</div>
-					<div class="item workout">
+					<div class="item add-workout">
+						<h4>+ Add workout</h4>
+					</div>
+					<!-- <div class="item workout">
 						<h4>Workout 2</h4>
 					</div>
 					<div class="item workout">
@@ -166,7 +126,7 @@
 					</div>
 					<div class="item workout">
 						<h4>Workout 6</h4>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -175,5 +135,6 @@
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<script src="js/java.js" type="text/javascript"></script>
 	</body>
 </html>

@@ -214,7 +214,6 @@ body {
 }
 
 .navbar-collapse{
-  width: 100%;
   margin-left: -16px;
   margin-right: -16px;
   border-bottom-left-radius: 10px;
@@ -237,19 +236,13 @@ body {
 
 .navigation-link, 
 #sidebar-toggler{
-  padding-left: 1em;
-  padding-right: 1em;
   color: #ffffff;
-}
-
-.navigation-link, 
-#sidebar-toggler{
   display:block;
   border-radius: 0.25em;
   border: none;
   padding: 0.25em 1em;
   color: #ffffff;
-}
+  }
 
 .navigation-link:hover,
 #sidebar-toggler:hover{

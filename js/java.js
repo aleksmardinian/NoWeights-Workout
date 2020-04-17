@@ -74,11 +74,6 @@ function addExercise(text, index) {
 	var exerciseHTML =	`<li data-key= ${exercise.id} draggable="true"> ${exercise.text} </li>`
 	var formHTML = exercises[index].querySelector('.new-exercise');
 
-	console.log(exerciseHTML);
-	console.log(formHTML);
-	console.log(exercises);
-	console.log(index);
-
 	formHTML.insertAdjacentHTML('beforebegin', exerciseHTML);
 
     var scrollExercises = document.querySelectorAll(".scroll-exercises");
@@ -121,42 +116,68 @@ function addWorkout(){
 
 
 // DRAGGING
+var dragStartElement;
+var parentElement;
+var shiftWorkoutsBool;
+var exercisesBool;
+var shiftExercisesBool;
 
 function dragCheck(){
 	draggableExercises.forEach((exercise, index) => {
-		exercise.addEventListener('dragstart', dragStart);
-		exercise.addEventListener('dragend', event => dragEnd(exercise));
-		exercise.addEventListener('dragenter', event => dragEnter(event, exercise));
-	});
+		exercise.addEventListener('dragstart', event => dragStart(exercise));
+		});
 }
 
-function dragStart() {
-	cardHeight = this.offsetHeight;
-	setTimeout(() => (this.classList.add('invisible')), 0);
+function dragStart(exercise) {
+	cardHeight = exercise.offsetHeight;
+	setTimeout(() => (exercise.classList.add('invisible')), 0);
+	dragStartElement = exercise;
+	exercisesBool = dragStartElement.closest('.item').classList.contains('exercises');
+	draggableExercises.forEach(exercise => {
+		exercise.addEventListener('dragend', event => dragEnd(exercise));
+		exercise.addEventListener('dragenter', event => dragEnter(event, exercise, exercisesBool));
+	});
 }
 
 function dragEnd(exercise) {
 	exercise.classList.remove('invisible');
 	var cardPlaceholder = document.querySelector('.card-placeholder');
-
-	if (cardPlaceholder!= undefined){
-		// cardPlaceholder.parentNode.insertBefore(exercise, null)
-		cardPlaceholder.replaceWith(exercise);
+	if (cardPlaceholder != undefined){
+		if (shiftWorkoutsBool || shiftExercisesBool){
+			cardPlaceholder.replaceWith(exercise);
+		}
+		else{
+			cardPlaceholder.replaceWith(exercise.cloneNode(true));
+		}
+		recalculate()
 	}
 }
 
 function dragEnter(event, exercise) {
-	var cardPlaceholderHTML = `<li class="card-placeholder" style="height:${cardHeight}px"></li>`;
+	parentElement = exercise;
+	shiftWorkoutsBool = (dragStartElement.closest('.item').classList.contains('workout')) && (parentElement.closest('.item').classList.contains('workout'));
+	shiftExercisesBool = (dragStartElement.closest('.item').classList.contains('exercises')) && (parentElement.closest('.item').classList.contains('exercises'));
 
-	event.preventDefault();
-	if (document.querySelector('.card-placeholder') == undefined){
-		exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
-		console.log(exercise);
+	if (!shiftExercisesBool){
+		dragStartElement.classList.remove('invisible');
 	}
-	var cardPlaceholder = document.querySelector('.card-placeholder');
-	cardPlaceholder.addEventListener('dragleave', event => dragLeave());
-	cardPlaceholder.addEventListener('dragover', event => dragOver(event));
-	cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
+	else{
+		dragStartElement.classList.add('invisible');
+	}
+
+	if (exercisesBool || shiftWorkoutsBool){
+
+		var cardPlaceholderHTML = `<li class="card-placeholder" style="height:${cardHeight}px"></li>`;
+
+		event.preventDefault();
+		if (document.querySelector('.card-placeholder') == undefined){
+			exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
+		}
+		var cardPlaceholder = document.querySelector('.card-placeholder');
+		cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
+		cardPlaceholder.addEventListener('dragover', event => dragOver(event));
+		cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
+	}	
 }
 
 
@@ -164,19 +185,18 @@ function dragOver(event) {
 	event.preventDefault();
 }
 
-function dragLeave() {
-	console.log(1)
-	if (document.querySelector('.card-placeholder') != undefined){
-		document.querySelector('.card-placeholder').remove();
+function dragLeave(cardPlaceholder) {
+	if (cardPlaceholder != undefined){
+		cardPlaceholder.remove();
 	}
 }
 
 function dragDrop() {
-	console.log("DROPPED");
 }
 
 
 
-
+// INCASE JQUERY BREAKS
+// http://www.jquerybyexample.net/2010/06/call-jquery-from-javascript-function.html
 
 

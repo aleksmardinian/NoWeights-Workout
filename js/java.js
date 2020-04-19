@@ -173,9 +173,12 @@ function dragEnd(exercise) {
 	exercise.classList.remove('active');
 
 	var cardPlaceholder = document.querySelector('.card-placeholder');
+	console.log(0);
+
 	if (cardPlaceholder != undefined){
+		console.log(0);
 		if (shiftWorkoutsBool || shiftExercisesBool){
-			console.log
+			console.log(1);
 			cardPlaceholder.replaceWith(exercise);
 		}
 		else{
@@ -183,9 +186,11 @@ function dragEnd(exercise) {
 		}
 		recalculate()
 	}
+
 }
 
 function dragEnter(event, exercise) {
+
 	parentElement = exercise;
 	shiftWorkoutsBool = (dragStartElement.closest('.item').classList.contains('workout')) && (parentElement.closest('.item').classList.contains('workout'));
 	addExercisesBool = (dragStartElement.closest('.item').classList.contains('exercises')) && (parentElement.closest('.item').classList.contains('workout'));
@@ -230,9 +235,9 @@ function dragEnter(event, exercise) {
 // }
 
 function dragLeave(cardPlaceholder) {
-	if (cardPlaceholder != undefined){
-		cardPlaceholder.remove();
-	}
+	// if (cardPlaceholder != undefined){
+	// 	cardPlaceholder.remove();
+	// }
 }
 
 // function dragDrop() {

@@ -1,29 +1,32 @@
 // alert("this alert box");
 
-var forms = document.querySelectorAll('.new-exercise');
-var inputs = document.querySelectorAll('.new-exercise-input');
-var exercises = document.querySelectorAll('.exercise-list');
-var workouts = document.querySelectorAll('.workout');
-var draggableExercises = document.querySelectorAll('.item li, .item form');
+var forms;
+var inputs;
+var exercises;
+var workouts;
+var draggableExercises;
 var cardHeight;
-var exerciseList = [];
 var sidebarToggler = document.querySelector('#sidebar-toggler');
+var editableItems;
+// DRAGGING FUNCTIONS
+var dragStartElement;
+var parentElement;
+var shiftWorkoutsBool;
+var shiftExercisesBool;
+var addExercisesBool;
+var exercisesBool;
+
+//FUNCTIONS TO BE RUN AT THE START
+
+recalculate();
+
+document.querySelector('.add-workout').addEventListener('click', event => {
+	addWorkout();
+});
 
 sidebarToggler.addEventListener('click', event => {
 	toggleSidebar();
-	}
-);
-
-dragCheck();
-
-function recalculate() {
-	forms = document.querySelectorAll('.new-exercise');
-	inputs = document.querySelectorAll('.new-exercise-input');
-	exercises = document.querySelectorAll('.exercise-list');
-	workouts = document.querySelectorAll('.workout');
-	draggableExercises = document.querySelectorAll('.item li, .item form');
-	dragCheck();
-}
+});
 
 document.addEventListener('submit', event => {
 	forms.forEach((form, index) => {
@@ -33,14 +36,47 @@ document.addEventListener('submit', event => {
 		    addExercise(text, index);
 		    inputs[index].value = '';
 		    inputs[index].focus();
-		}
-	})
+			}
+		});
 });
 
-document.querySelector('.add-workout').addEventListener('click', event => {
-	addWorkout();
-});
+function recalculate() {
+	forms = document.querySelectorAll('.new-exercise');
+	inputs = document.querySelectorAll('.new-exercise-input');
+	exercises = document.querySelectorAll('.exercise-list');
+	workouts = document.querySelectorAll('.workout');
+	draggableExercises = document.querySelectorAll('.item li, .item form');
+	dragCheck();
+	editableItems = document.querySelectorAll('.item li, .workout h4');
+	editableCheck();
+}
 
+
+
+
+// DISPLAY EDIT ICONS
+function editableCheck(){
+	editableItems.forEach(editableItem => {
+		editableItem.addEventListener('mouseover', event => {
+			displayEditIcon(editableItem);
+		});
+		editableItem.addEventListener('mouseout', event => {
+			hideEditIcon(editableItem);
+		});
+	});
+}
+
+
+function displayEditIcon(editableItem){
+	editableItem.classList.add('active');
+}
+
+function hideEditIcon(editableItem){
+	editableItem.classList.remove('active');
+}
+
+
+// TOGGLE SIDEBAR
 
 function toggleSidebar() {
 	var sidebar = document.querySelector('.exercises');
@@ -66,10 +102,6 @@ function addExercise(text, index) {
 		time: "",
 		id: Date.now()
 	};
-
-	workout = exercises[index];
-
-	exerciseList.push(exercise);
 
 	var exerciseHTML =	`<li data-key= ${exercise.id} draggable="true"> ${exercise.text} </li>`
 	var formHTML = exercises[index].querySelector('.new-exercise');
@@ -116,11 +148,7 @@ function addWorkout(){
 
 
 // DRAGGING
-var dragStartElement;
-var parentElement;
-var shiftWorkoutsBool;
-var exercisesBool;
-var shiftExercisesBool;
+
 
 function dragCheck(){
 	draggableExercises.forEach((exercise, index) => {
@@ -140,10 +168,14 @@ function dragStart(exercise) {
 }
 
 function dragEnd(exercise) {
+	shiftExercisesBool = (dragStartElement.closest('.item').classList.contains('exercises')) && (parentElement.closest('.item').classList.contains('exercises'));
 	exercise.classList.remove('invisible');
+	exercise.classList.remove('active');
+
 	var cardPlaceholder = document.querySelector('.card-placeholder');
 	if (cardPlaceholder != undefined){
 		if (shiftWorkoutsBool || shiftExercisesBool){
+			console.log
 			cardPlaceholder.replaceWith(exercise);
 		}
 		else{
@@ -156,9 +188,9 @@ function dragEnd(exercise) {
 function dragEnter(event, exercise) {
 	parentElement = exercise;
 	shiftWorkoutsBool = (dragStartElement.closest('.item').classList.contains('workout')) && (parentElement.closest('.item').classList.contains('workout'));
-	shiftExercisesBool = (dragStartElement.closest('.item').classList.contains('exercises')) && (parentElement.closest('.item').classList.contains('exercises'));
+	addExercisesBool = (dragStartElement.closest('.item').classList.contains('exercises')) && (parentElement.closest('.item').classList.contains('workout'));
 
-	if (!shiftExercisesBool){
+	if (addExercisesBool){
 		dragStartElement.classList.remove('invisible');
 	}
 	else{
@@ -170,29 +202,41 @@ function dragEnter(event, exercise) {
 		var cardPlaceholderHTML = `<li class="card-placeholder" style="height:${cardHeight}px"></li>`;
 
 		event.preventDefault();
-		if (document.querySelector('.card-placeholder') == undefined){
+
+		var cardPlaceholder = document.querySelector('.card-placeholder');
+
+		if (cardPlaceholder != undefined){
+			cardPlaceholder.remove();
 			exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
 		}
-		var cardPlaceholder = document.querySelector('.card-placeholder');
-		cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
-		cardPlaceholder.addEventListener('dragover', event => dragOver(event));
-		cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
+		else {
+			exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
+		}
+
+		// if (document.querySelector('.card-placeholder') == undefined){
+		// 	exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
+		// }
+	// 	cardPlaceholder = document.querySelector('.card-placeholder');
+
+	// 	cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
+	// 	cardPlaceholder.addEventListener('dragover', event => dragOver(event));
+	// 	cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
 	}	
 }
 
 
-function dragOver(event) {
-	event.preventDefault();
-}
+// function dragOver(event) {
+// 	event.preventDefault();
+// }
 
-function dragLeave(cardPlaceholder) {
-	if (cardPlaceholder != undefined){
-		cardPlaceholder.remove();
-	}
-}
+// function dragLeave(cardPlaceholder) {
+// 	// if (cardPlaceholder != undefined){
+// 	// 	cardPlaceholder.remove();
+// 	// }
+// }
 
-function dragDrop() {
-}
+// function dragDrop() {
+// }
 
 
 

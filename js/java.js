@@ -221,12 +221,12 @@ function dragEnter(event, exercise) {
 		// if (document.querySelector('.card-placeholder') == undefined){
 		// 	exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
 		// }
-	cardPlaceholder = document.querySelector('.card-placeholder');
+	// cardPlaceholder = document.querySelector('.card-placeholder');
 
-	cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
+	// cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
 	// 	cardPlaceholder.addEventListener('dragover', event => dragOver(event));
 	// 	cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
-	}	
+	}
 }
 
 
@@ -234,11 +234,11 @@ function dragEnter(event, exercise) {
 // 	event.preventDefault();
 // }
 
-function dragLeave(cardPlaceholder) {
+// function dragLeave(cardPlaceholder) {
 	// if (cardPlaceholder != undefined){
 	// 	cardPlaceholder.remove();
 	// }
-}
+// }
 
 // function dragDrop() {
 // }

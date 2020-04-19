@@ -173,12 +173,9 @@ function dragEnd(exercise) {
 	exercise.classList.remove('active');
 
 	var cardPlaceholder = document.querySelector('.card-placeholder');
-	console.log(0);
 
 	if (cardPlaceholder != undefined){
-		console.log(0);
 		if (shiftWorkoutsBool || shiftExercisesBool){
-			console.log(1);
 			cardPlaceholder.replaceWith(exercise);
 		}
 		else{
@@ -225,25 +222,22 @@ function dragEnter(event, exercise) {
 
 	cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
 	cardPlaceholder.addEventListener('dragover', event => dragOver(event));
-	cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
+	// cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
 	}
 }
 
 
 function dragOver(event) {
-	console.log(0);
 	event.preventDefault();
 }
 
 function dragLeave(cardPlaceholder) {
-	console.log(1);
 	if (cardPlaceholder != undefined){
 		cardPlaceholder.remove();
 	}
 }
 
 // function dragDrop() {
-// 	console.log(2);
 // }
 
 

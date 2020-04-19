@@ -221,26 +221,29 @@ function dragEnter(event, exercise) {
 		// if (document.querySelector('.card-placeholder') == undefined){
 		// 	exercise.insertAdjacentHTML('beforebegin', cardPlaceholderHTML);
 		// }
-	// cardPlaceholder = document.querySelector('.card-placeholder');
+	cardPlaceholder = document.querySelector('.card-placeholder');
 
-	// cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
-	// 	cardPlaceholder.addEventListener('dragover', event => dragOver(event));
-	// 	cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
+	cardPlaceholder.addEventListener('dragleave', event => dragLeave(cardPlaceholder));
+	cardPlaceholder.addEventListener('dragover', event => dragOver(event));
+	cardPlaceholder.addEventListener('dragdrop', event => dragDrop());
 	}
 }
 
 
-// function dragOver(event) {
-// 	event.preventDefault();
-// }
+function dragOver(event) {
+	console.log(0);
+	event.preventDefault();
+}
 
-// function dragLeave(cardPlaceholder) {
-	// if (cardPlaceholder != undefined){
-	// 	cardPlaceholder.remove();
-	// }
-// }
+function dragLeave(cardPlaceholder) {
+	console.log(1);
+	if (cardPlaceholder != undefined){
+		cardPlaceholder.remove();
+	}
+}
 
 // function dragDrop() {
+// 	console.log(2);
 // }
 
 

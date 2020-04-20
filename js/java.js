@@ -1,13 +1,22 @@
+$(document).ready(function() {
+    console.log( "ready!" );
+});
+
+
 // alert("this alert box");
 
 var forms;
 var inputs;
 var exercises;
 var workouts;
+var numberWorkouts;
 var draggableExercises;
 var cardHeight;
 var sidebarToggler = document.querySelector('#sidebar-toggler');
 var editableItems;
+var editIcons;
+var deleteIcons;
+var editingExercise;
 // DRAGGING FUNCTIONS
 var dragStartElement;
 var parentElement;
@@ -16,9 +25,16 @@ var shiftExercisesBool;
 var addExercisesBool;
 var exercisesBool;
 
+
 //FUNCTIONS TO BE RUN AT THE START
 
 recalculate();
+
+
+// HTML
+
+
+
 
 document.querySelector('.add-workout').addEventListener('click', event => {
 	addWorkout();
@@ -45,33 +61,38 @@ function recalculate() {
 	inputs = document.querySelectorAll('.new-exercise-input');
 	exercises = document.querySelectorAll('.exercise-list');
 	workouts = document.querySelectorAll('.workout');
+	numberWorkouts = workouts.length;
 	draggableExercises = document.querySelectorAll('.item li, .item form');
 	dragCheck();
-	editableItems = document.querySelectorAll('.item li, .workout h4');
+	editableItems = document.querySelectorAll('.item li, .workout-title');
 	editableCheck();
+	editIcons = document.querySelectorAll('.icon-edit');
+	editExercise();
+	deleteIcons = document.querySelectorAll('.icon-delete');
+	deleteExercise();
 }
 
 
 
 
-// DISPLAY EDIT ICONS
+// DISPLAY ICONS
 function editableCheck(){
 	editableItems.forEach(editableItem => {
 		editableItem.addEventListener('mouseover', event => {
-			displayEditIcon(editableItem);
+			displayIcons(editableItem);
 		});
 		editableItem.addEventListener('mouseout', event => {
-			hideEditIcon(editableItem);
+			hideIcons(editableItem);
 		});
 	});
 }
 
 
-function displayEditIcon(editableItem){
+function displayIcons(editableItem){
 	editableItem.classList.add('active');
 }
 
-function hideEditIcon(editableItem){
+function hideIcons(editableItem){
 	editableItem.classList.remove('active');
 }
 
@@ -103,7 +124,14 @@ function addExercise(text, index) {
 		id: Date.now()
 	};
 
-	var exerciseHTML =	`<li data-key= ${exercise.id} draggable="true"> ${exercise.text} </li>`
+	var exerciseHTML =	`<li data-key= ${exercise.id} draggable="true">
+							<div>${exercise.text}</div>
+							<div class="list-card-operation">
+								<i class='material-icons icon-delete'></i>
+								<i class='material-icons icon-edit'></i>
+							</div>
+						</li>`
+
 	var formHTML = exercises[index].querySelector('.new-exercise');
 
 	formHTML.insertAdjacentHTML('beforebegin', exerciseHTML);
@@ -119,12 +147,14 @@ function addExercise(text, index) {
 
 
 function addWorkout(){
-
-	var numberWorkouts = workouts.length;
-	
-	document.querySelector('.add-workout').insertAdjacentHTML('beforeBegin',
-	`<div class="item workout">
-		<h4>Workout ${numberWorkouts+1}</h4>
+	var newWorkout = `<div class="item workout">
+		<div class="workout-title">
+			<h4>Workout ${numberWorkouts+1}</h4>
+			<div class="list-card-operation">
+				<i class='material-icons icon-delete'></i>
+				<i class='material-icons icon-edit'></i>
+			</div>
+		</div>
 		<div class="scroll-exercises">
 			<ul class="list-unstyled exercise-list">
 				<form class="new-exercise">
@@ -132,8 +162,9 @@ function addWorkout(){
 				</form>
 			</ul>
 		</div>
-	</div>`
-	);
+	</div>`;
+	
+	document.querySelector('.add-workout').insertAdjacentHTML('beforeBegin', newWorkout);
 
 	recalculate();
 
@@ -143,8 +174,57 @@ function addWorkout(){
 }
 
 
+// EDIT EXERCISE
+
+function editExercise(){
+	editIcons.forEach(icon => {
+		icon.addEventListener('click', event => {
+			event.stopImmediatePropagation();
+			editingExercise = icon.parentNode.parentNode.firstElementChild;
+			editingExercise.setAttribute("contentEditable", "true");
+			editingExercise.focus();
+			// Decide on where to place cursor
+			var range = document.createRange();
+			range.setStart(editingExercise.lastChild, editingExercise.lastChild.length);
+			// Set selection
+			var sel = window.getSelection();
+			sel.removeAllRanges();
+			sel.addRange(range);
+
+			window.addEventListener('click', event => exitEditExercise(event, editingExercise, {once:true}));
+			editingExercise.addEventListener('keydown', event => exitEditExercise(event, editingExercise, { once: true }));	
+
+		});
+	});
+}
+
+function exitEditExercise(event, editingExercise){
+	var isClickInside = editingExercise.contains(event.target);
+	if (!isClickInside){
+		editingExercise.setAttribute("contentEditable", "false");
+	}
+	if (event.key == 'Enter' && !event.shiftKey){
+		editingExercise.setAttribute("contentEditable", "false");
+	}
+}
 
 
+// DELETE EXERCISE
+
+function deleteExercise(){
+	deleteIcons.forEach(icon => {
+		icon.addEventListener('click', event => {
+			event.stopImmediatePropagation();
+			var activeItem = document.querySelector('.active');
+			if (activeItem.classList.contains('workout-title')){
+				activeItem.parentElement.remove()
+			}else{
+				activeItem.remove();
+			}
+			recalculate();
+		});
+	});
+}
 
 
 // DRAGGING

@@ -136,6 +136,7 @@ body {
   border: solid 1px black;
 }
 
+
 .item li, .new-exercise-input{
   color: #000000;
   background-color: #ffffff;
@@ -204,8 +205,7 @@ body {
 .list-card-operation {
   position: absolute;
   /*display: flex;*/
-  top: 4px;
-  bottom: 0px;
+  top: 2px;
   right: 0px;
   margin-right: 4px;
   text-align: center;
@@ -223,7 +223,7 @@ body {
   border-radius: 3px;
   padding: 4px;
   margin: auto;
-
+  vertical-align: middle;
 }
 
 .material-icons:hover{
@@ -231,8 +231,28 @@ body {
 
 }
 
-.active .list-card-operation{
+.active .list-card-operation {
   visibility: visible;
+}
+
+.more{
+  visibility: hidden;
+  position: absolute;
+  right: 0px;
+  top: -26px;
+  display: block;
+  z-index: 30;
+  padding: 4px;
+  padding-bottom: 0px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #c1c4c9;
+  text-align: right;
+}
+
+.reps{
+  font-size: 0.8em;
+  display: none;
 }
 
 .icon-edit::after {
@@ -243,7 +263,21 @@ body {
   content: "delete";
 }
 
+.icon-time::after{
+  content: "alarm_add";
+}
 
+.icon-rep::after{
+  content: "repeat";
+}
+
+.icon-set::after{
+  content: "playlist_add";
+}
+
+.icon-more::after{
+  content: "more_vert";
+}
 
 
 

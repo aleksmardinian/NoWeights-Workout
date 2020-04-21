@@ -64,37 +64,199 @@ function recalculate() {
 	numberWorkouts = workouts.length;
 	draggableExercises = document.querySelectorAll('.item li, .item form');
 	dragCheck();
-	editableItems = document.querySelectorAll('.item li, .workout-title');
-	editableCheck();
-	editIcons = document.querySelectorAll('.icon-edit');
+	displayIcons();
 	editExercise();
-	deleteIcons = document.querySelectorAll('.icon-delete');
 	deleteExercise();
+	addReps();
+	addTime();
 }
 
 
 
 
 // DISPLAY ICONS
-function editableCheck(){
-	editableItems.forEach(editableItem => {
-		editableItem.addEventListener('mouseover', event => {
-			displayIcons(editableItem);
+
+function displayIcons(){
+	$('.item li, .workout-title').mouseenter(function(){
+		$(this).addClass('active');
+		$(this).mouseleave(function(){
+			$(this).removeClass('active');
 		});
-		editableItem.addEventListener('mouseout', event => {
-			hideIcons(editableItem);
+	});
+
+	$(".icon-more").mouseenter(function(){
+		var moreMenu = $(this).parent().next();
+		moreMenu.css("visibility", "visible");
+		$(moreMenu).mouseleave(function(){
+			moreMenu.css("visibility", "hidden");
+		});
+		$(moreMenu.parent()).mouseleave(function(){
+			moreMenu.css("visibility", "hidden");
 		});
 	});
 }
 
+// ICONS CODE
 
-function displayIcons(editableItem){
-	editableItem.classList.add('active');
+// EDIT EXERCISE
+
+function editExercise(){
+	$(".icon-edit").click(function(){
+		event.stopImmediatePropagation();
+		var editingExercise = $(this).closest("li").children()[0];
+		if (editingExercise==undefined){
+			editingExercise = $(this).closest(".workout-title").children()[0];
+		}
+		
+		editContent(editingExercise);
+
+		$(editingExercise).keydown(function(){
+			if (event.key == 'Enter' && !event.shiftKey){
+			editingExercise.setAttribute("contentEditable", "false");
+			}
+		});
+		$(document).one("click", function(){
+			var isClickInside = editingExercise.contains(event.target);
+			if (!isClickInside){
+				editingExercise.setAttribute("contentEditable", "false");
+			}
+		});
+	});
+}
+	// editIcons.forEach(icon => {
+	// 	icon.addEventListener('click', event => {
+	// 		event.stopImmediatePropagation();
+	// 		editingExercise = icon.parentNode.parentNode.firstElementChild;
+	// 		editingExercise.setAttribute("contentEditable", "true");
+	// 		editingExercise.focus();
+	// 		// Decide on where to place cursor
+	// 		var range = document.createRange();
+	// 		range.setStart(editingExercise.lastChild, editingExercise.lastChild.length);
+	// 		// Set selection
+	// 		var sel = window.getSelection();
+	// 		sel.removeAllRanges();
+	// 		sel.addRange(range);
+
+	// 		window.addEventListener('click', event => exitEditExercise(event, editingExercise, {once:true}));
+	// 		editingExercise.addEventListener('keydown', event => exitEditExercise(event, editingExercise, { once: true }));	
+
+	// 	});
+	// });
+
+
+// function exitEditExercise(event, editingExercise){
+// 	var isClickInside = editingExercise.contains(event.target);
+// 	if (!isClickInside){
+// 		editingExercise.setAttribute("contentEditable", "false");
+// 	}
+// 	if (event.key == 'Enter' && !event.shiftKey){
+// 		editingExercise.setAttribute("contentEditable", "false");
+// 	}
+// }
+
+
+// DELETE EXERCISE
+
+function deleteExercise(){
+	$(".icon-delete").unbind().click(function(){
+		var deletingExercise = $(this).closest("li");
+		if (deletingExercise.length==0){
+			deletingExercise = $(this).closest(".workout");
+		}
+		deletingExercise.remove();
+		recalculate();
+	});
 }
 
-function hideIcons(editableItem){
-	editableItem.classList.remove('active');
+// ADD REPS
+
+function addReps(){
+	$(".icon-rep").unbind().click(function(){
+		event.stopImmediatePropagation();
+		var editingExercise = $(this).closest("li").find("span")[1];
+		$(editingExercise).closest(".reps").css("display", "block");
+		editContent(editingExercise);
+		
+		finishEdit(editingExercise);
+	});
 }
+
+// ADD TIME
+
+function addTime(){
+	$(".icon-time").unbind().click(function(){
+		event.stopImmediatePropagation();
+		var editingExercise = $(this).closest("li").find("span")[3];
+		$(editingExercise).closest(".reps").css("display", "block");
+		
+		editContent(editingExercise);
+		
+		finishEdit(editingExercise);
+	});
+}
+
+// EDIT EXERCISE
+
+function editContent(editingItem){
+	editingItem.setAttribute("contentEditable", "true");
+	editingItem.focus();
+	if (editingItem.lastChild != null){
+		// Decide on where to place cursor
+		var range = document.createRange();
+		range.setStart(editingItem.lastChild, editingItem.lastChild.length);
+		// Set selection
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+	}
+}
+
+function finishEdit(editingExercise){
+		$(editingExercise).unbind().keydown(function(){
+			event.stopImmediatePropagation();
+			if (event.key == 'Enter' && !event.shiftKey){
+				editingExercise.setAttribute("contentEditable", "false");
+				checkContent(editingExercise);
+			}
+		});
+		$(document).unbind().click(function(){
+			var isClickInside = editingExercise.contains(event.target);
+			if (!isClickInside){
+				editingExercise.setAttribute("contentEditable", "false");
+				checkContent(editingExercise);
+			}
+		});
+}
+
+function checkContent(editingItem){
+	if (isNaN(editingItem.innerHTML)){
+		alert('Please enter a number');
+		editingItem.setAttribute("contentEditable", "false");
+	}
+	if (editingItem.innerHTML==""){
+		$(editingItem).closest(".reps").css("display", "none");
+	}
+}
+
+// function displayIcons(){
+// 	editableItems.forEach(editableItem => {
+// 		editableItem.addEventListener('mouseover', event => {
+// 			displayIcons(editableItem);
+// 		});
+// 		editableItem.addEventListener('mouseout', event => {
+// 			hideIcons(editableItem);
+// 		});
+// 	});
+// }
+
+
+// function displayIcons(editableItem){
+// 	editableItem.classList.add('active');
+// }
+
+// function hideIcons(editableItem){
+// 	editableItem.classList.remove('active');	
+// }
 
 
 // TOGGLE SIDEBAR
@@ -173,58 +335,6 @@ function addWorkout(){
 	inputs[numberInputs-1].focus();
 }
 
-
-// EDIT EXERCISE
-
-function editExercise(){
-	editIcons.forEach(icon => {
-		icon.addEventListener('click', event => {
-			event.stopImmediatePropagation();
-			editingExercise = icon.parentNode.parentNode.firstElementChild;
-			editingExercise.setAttribute("contentEditable", "true");
-			editingExercise.focus();
-			// Decide on where to place cursor
-			var range = document.createRange();
-			range.setStart(editingExercise.lastChild, editingExercise.lastChild.length);
-			// Set selection
-			var sel = window.getSelection();
-			sel.removeAllRanges();
-			sel.addRange(range);
-
-			window.addEventListener('click', event => exitEditExercise(event, editingExercise, {once:true}));
-			editingExercise.addEventListener('keydown', event => exitEditExercise(event, editingExercise, { once: true }));	
-
-		});
-	});
-}
-
-function exitEditExercise(event, editingExercise){
-	var isClickInside = editingExercise.contains(event.target);
-	if (!isClickInside){
-		editingExercise.setAttribute("contentEditable", "false");
-	}
-	if (event.key == 'Enter' && !event.shiftKey){
-		editingExercise.setAttribute("contentEditable", "false");
-	}
-}
-
-
-// DELETE EXERCISE
-
-function deleteExercise(){
-	deleteIcons.forEach(icon => {
-		icon.addEventListener('click', event => {
-			event.stopImmediatePropagation();
-			var activeItem = document.querySelector('.active');
-			if (activeItem.classList.contains('workout-title')){
-				activeItem.parentElement.remove()
-			}else{
-				activeItem.remove();
-			}
-			recalculate();
-		});
-	});
-}
 
 
 // DRAGGING

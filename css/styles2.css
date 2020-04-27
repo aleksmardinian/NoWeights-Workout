@@ -65,6 +65,8 @@ body {
 
 .app{
   background-color: #f5f9ff;
+  position: absolute;
+  width: 100vw;
 }
 
 .scroll-page{
@@ -85,8 +87,9 @@ body {
   float: left;
 }
 
-.item{
-  display: inline-block;
+.item {
+  display: block;
+  position: relative;
   margin: var(--gutter) 0;
   padding: var(--gutter);
   background-color: #dfe2e8;
@@ -109,10 +112,7 @@ body {
   transition: 0.5s;
 }
 
-.hide {
-  width: 0px;
-  padding: var(--gutter) 0px;
-  border: none;
+.exercises.hide {
   opacity: 0;
   transition: 0.5s;
 }
@@ -124,6 +124,10 @@ body {
   height:auto;
 }
 
+.exercises .scroll-exercises{
+  max-height: calc(100vh - 188px);
+}
+
 .workout{
   max-height: calc(100vh - var(--nav-height) - 2 * var(--gutter));
 }
@@ -132,37 +136,32 @@ body {
   position: relative;
 }
 
-.card-placeholder{
-  border: solid 1px black;
+.workout .scroll-exercises{
+  max-height: calc(100vh - var(--nav-height) + 10px - 10 * var(--gutter));
 }
 
-
-.item li, .new-exercise-input{
-  color: #000000;
-  background-color: #ffffff;
-  border-radius: 5px;
+.scroll-exercises{
+  overflow-y: scroll;
   margin-bottom: 6px;
-  padding: 4px 8px;
-  position: relative;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
+}
+
+.scroll-exercises > :last-child{
+  margin-bottom: 0px;
+}
+
+.card-placeholder{
+  border: solid 1px black;
 }
 
 .invisible{
   display: none;
 }
 
-.hold{
-  background-color: red;
-}
 
-.item .list-form-container{
-  padding: 0px;
-  margin: 0px;
-}
-
- .new-exercise-input{
+.new-exercise-input{
+  border-radius: 5px;
+  padding: 4px 8px;
+  position: static;
   border: 1px solid #6c757d;
   width: 100%;
   margin: 0px;
@@ -180,71 +179,105 @@ body {
   color: #6c757d;
 }
 
-.item ul{
-  margin: 0px;
-}
-
-.exercises .scroll-exercises{
-  max-height: calc(100vh - 172px);
-}
-
-.workout .scroll-exercises{
-  max-height: calc(100vh - var(--nav-height) + 10px - 7 * var(--gutter));
- }
-
-.exercises h3{
-  margin-top: 11px;
-}
-
-/*NEW CODE*/
-/**/
-/**/
-/**/
-
-
-/*COD COPY PASTED*/
-/*.wrapper {
+.item li, .active {
+  list-style-type: none;
+  color: #000000;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 6px;
+  padding: 4px 8px;
   position: relative;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
-
-ul {
-  width: 200px;
-  max-height: 250px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-li {
-  position: static;
-}
-
-li:hover > .wrapper {
-    display: block;
-}
-
-li .wrapper {
-    position: absolute;
-    z-index: 10;
-    display: none;
-}*/
-
-/*END OF NEW CODE*/
 
 .item li.active{
   background-color: #c1c4c9;
 }
 
-.list-card-operation {
+.exercises h3{
+  margin-top: 11px;
+}
+
+
+.title-icons {
   position: absolute;
-  text-align: left;
+  top: 0px;
+  right: 0px;
+  display: inline-block;
+  text-align: right;
   /*display: flex;*/
   visibility: hidden;
   z-index: 40;
+}
+
+.active .title-icons {
+  visibility: visible;
+}
+
+.icons{
+  /*background-color: #c1c4c9;*/
+  top: 0px;
+  right: 0px;
+  position: absolute;
+  display: inline-block;
+  text-align: right;
+  top: 0px;
+  bottom: 0px;
+  z-index: 20;
+  visibility: hidden;
+}
+
+.active .icons {
+  visibility: visible;
+}
+
+.main-icons {
+  top: 0px;
+  right: 0px;
+  padding: 2px;
+  padding-right: 4px;
+  position: relative;
+  display: inline-block;
+  z-index: 30;
+  text-align: right;
 /*
   align-items: center;
   justify-items: center;
   justify-content: center;
   align-content: center;*/
+}
+
+.more-icons{
+  overflow: hidden;
+  top: 0px;
+  right: 0px;
+  padding: 4px;
+  position: absolute;
+  display: flex;
+  z-index: 40;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-color: #c1c4c9;
+  visibility: hidden;
+  opacity: 0;
+  width: 60.2px;
+  transition: 0.5s;
+  transition: width .4s 0s, opacity 0.1s .4s, visibility 0s .5s;
+}
+
+.more-icons.show{
+  
+  visibility: visible;
+  opacity: 1;
+  width: 128px;
+  transition: width .4s 0s, opacity 0.1s 0s;
+}
+
+.more-icons.hidden{
+  opacity:0;
+  transition: 1s;
 }
 
 .material-icons{
@@ -257,30 +290,6 @@ li .wrapper {
 
 .material-icons:hover{
   background-color: #989a9e;;
-
-}
-
-.active .list-card-operation {
-  visibility: visible;
-}
-
-.more{
-  visibility: hidden;
-  position: absolute;
-  right: 0px;
-  top: -26px;
-  display: block;
-  z-index: 30;
-  padding: 4px;
-  padding-bottom: 0px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  background-color: #c1c4c9;
-  text-align: right;
-}
-
-#show{
-  visibility: visible;
 }
 
 .reps{
@@ -305,13 +314,29 @@ li .wrapper {
 }
 
 .icon-set::after{
-  content: "playlist_add";
+  content: "add_to_queue";
+}
+
+.icon-rem-set::after{
+  content: "remove_from_queue";
 }
 
 .icon-more::after{
   content: "more_vert";
 }
 
+.set-border{
+  color: rgba(255,255,255,0);
+  background-color: rgba(255,255,255,0);
+  border: solid 3px white;
+  padding: 0.25em;
+  border-radius: 5px;
+  margin-bottom: 6px;
+}
+
+.set-border > :last-child{
+  margin-bottom: 0px;
+}
 
 
 

@@ -149,11 +149,7 @@ body {
   margin-bottom: 0px;
 }
 
-.card-placeholder{
-  border: solid 1px black;
-}
-
-.invisible{
+.item .invisible{
   display: none;
 }
 
@@ -179,7 +175,15 @@ body {
   color: #6c757d;
 }
 
-.item li, .active {
+.card-placeholder{
+  border: solid 1px black;
+}
+
+.exercises h3{
+  margin-top: 11px;
+}
+
+.item li, .card-placeholder {
   list-style-type: none;
   color: #000000;
   background-color: #ffffff;
@@ -196,10 +200,80 @@ body {
   background-color: #c1c4c9;
 }
 
-.exercises h3{
-  margin-top: 11px;
+.set-border{
+  background-color: rgba(255,255,255,0);
+  border: solid 3px white;
+  /*border-top-width: 10px;
+  border-bottom-width: 10px;*/
+  padding: 0.25em;
+  border-radius: 5px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  position: relative;
 }
 
+.set-border li:last-child, .set-border .card-placeholder:last-child{
+  margin-bottom: 0px;
+}
+
+.set-border.active li, .set-border.active .card-placeholder {
+  margin-right: 35px;
+  transition: 0.2s;
+}
+
+.set-sidebar{
+  background-color: #ffffff;
+  color: #000000;
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  top: 0px;
+  right: -3px;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  grid-column: right;
+  z-index:100;
+  width: 0px; /*HERE*/
+  visibility: hidden; /*HERE*/
+  overflow: hidden; /*HERE*/
+  transition: 0.2s;
+}
+
+.active .set-sidebar{
+  visibility: visible;
+  width: 38px;
+  transition: 0.2s;
+}
+
+.set-icons{
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 32px;
+  height: 30px;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+.set-icons-arrows{
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 32px;
+  height: 30px;
+  line-height:2em;
+  vertical-align:middle
+}
+
+.set-icons-arrows:hover{
+  background-color: #989a9e;
+}
 
 .title-icons {
   position: absolute;
@@ -229,17 +303,17 @@ body {
   visibility: hidden;
 }
 
-.active .icons {
+li.active .icons {
   visibility: visible;
 }
 
-.main-icons {
+li.active .main-icons {
   top: 0px;
   right: 0px;
   padding: 2px;
   padding-right: 4px;
+  width: 60px;
   position: relative;
-  display: inline-block;
   z-index: 30;
   text-align: right;
 /*
@@ -259,25 +333,24 @@ body {
   z-index: 40;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
-  background-color: #c1c4c9;
+  background-color: #ffffff;
   visibility: hidden;
   opacity: 0;
-  width: 60.2px;
+  width: 60px;
   transition: 0.5s;
   transition: width .4s 0s, opacity 0.1s .4s, visibility 0s .5s;
 }
 
-.more-icons.show{
-  
-  visibility: visible;
-  opacity: 1;
-  width: 128px;
-  transition: width .4s 0s, opacity 0.1s 0s;
+li.active .more-icons{
+  background-color: #c1c4c9;
 }
 
-.more-icons.hidden{
-  opacity:0;
-  transition: 1s;
+.more-icons.show{
+  background-color: #c1c4c9;
+  visibility: visible;
+  opacity: 1;
+  width: calc(144px + 8px);
+  transition: width .4s 0s, opacity 0.1s 0s;
 }
 
 .material-icons{
@@ -313,7 +386,7 @@ body {
   content: "repeat";
 }
 
-.icon-set::after{
+.icon-add-set::after{
   content: "add_to_queue";
 }
 
@@ -321,24 +394,55 @@ body {
   content: "remove_from_queue";
 }
 
+.icon-weight::after{
+  content: "fitness_center";
+}
+
 .icon-more::after{
   content: "more_vert";
 }
 
-.set-border{
-  color: rgba(255,255,255,0);
+.icon-set:hover{
   background-color: rgba(255,255,255,0);
-  border: solid 3px white;
-  padding: 0.25em;
-  border-radius: 5px;
-  margin-bottom: 6px;
 }
 
-.set-border > :last-child{
-  margin-bottom: 0px;
+.icon-set::after{
+  content: "repeat";
 }
 
+.icon-clear-set{
+  opacity: 0;
+}
 
+.icon-clear-set:hover{
+  opacity: 1;
+}
+
+.icon-clear-set::after{
+  content: "clear";
+}
+
+.stack-icons{
+  font-size: 1.8em;
+  padding: 1px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.number-sets{
+  font-size: 0.6em;
+  padding: 0px;
+}
+
+.icon-more-set::after{
+  content: "keyboard_arrow_up";
+}
+
+.icon-less-set::after{
+  content: "keyboard_arrow_down";
+}
 
 
 /*NAVBAR FORMATTING*/

@@ -142,10 +142,6 @@ body {
 
 .scroll-exercises{
   overflow-y: scroll;
-  margin-bottom: 6px;
-}
-
-.scroll-exercises > :last-child{
   margin-bottom: 0px;
 }
 
@@ -234,7 +230,6 @@ body {
   align-items: center;
   justify-content: center;
   grid-column: right;
-  z-index:100;
   width: 0px; /*HERE*/
   visibility: hidden; /*HERE*/
   overflow: hidden; /*HERE*/
@@ -248,31 +243,27 @@ body {
 }
 
 .set-icons{
-  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   width: 32px;
-  height: 30px;
+  height: 36px;
   line-height: 2em;
   vertical-align: middle;
+  z-index: 10;
 }
 
-.set-icons-arrows{
-  border-radius: 10px;
+.set-icons-arrows.material-icons{
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   width: 32px;
-  height: 30px;
-  line-height:2em;
-  vertical-align:middle
-}
-
-.set-icons-arrows:hover{
-  background-color: #989a9e;
+  vertical-align: middle;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  flex-basis: 0px;
 }
 
 .title-icons {
@@ -436,8 +427,16 @@ li.active .more-icons{
   padding: 0px;
 }
 
+.icon-more-set{
+  margin-bottom: 0px;
+}
+
 .icon-more-set::after{
   content: "keyboard_arrow_up";
+}
+
+.icon-less-set{
+  margin-top: 0px;
 }
 
 .icon-less-set::after{
